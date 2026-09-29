@@ -12,6 +12,7 @@ PAGES = [
     ("index.html", "Home", "The Strategy Witan · 2027"),
     ("about.html", "About", "About · The Strategy Witan"),
     ("programme.html", "Programme", "Programme · The Strategy Witan"),
+    ("participants.html", "Participants", "Participants · The Strategy Witan"),
     ("blog.html", "Blog", "Blog · The Strategy Witan"),
     ("contact.html", "Contact", "Contact · The Strategy Witan"),
 ]
@@ -109,6 +110,17 @@ document.querySelectorAll('[data-participants]').forEach(function (box) {
   fetch(box.dataset.participants).then(function (r) { return r.ok ? r.json() : null; }).then(function (groups) {
     if (!groups) return;
     var total = groups.reduce(function (n, g) { return n + g.people.length; }, 0);
+    var list = groups.map(function (g) {
+      return '<div class="ix-part-group"><p class="ix-part-school">' + g.school + '</p><ul>' +
+        g.people.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></div>';
+    }).join('');
+    if (box.dataset.mode === 'full') {
+      box.innerHTML = '<p class="ix-part-count">' + total + ' scholars &middot; ' + groups.length + ' schools</p>' +
+        '<div class="ix-part-body">' + list + '</div>';
+      document.querySelectorAll('[data-roll-total]').forEach(function (el) { el.textContent = total; });
+      document.querySelectorAll('[data-roll-schools]').forEach(function (el) { el.textContent = groups.length; });
+      return;
+    }
     var html = '<div class="ix-part-head"><span class="ix-part-num">' + total + '</span>' +
       '<span class="ix-part-lab">scholars from ' + groups.length + ' schools took part in ' + box.dataset.edition + '</span>' +
       '<button type="button" class="ix-part-toggle" aria-expanded="false">See who took part</button></div>' +

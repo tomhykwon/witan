@@ -637,3 +637,24 @@ article.page .ix-part-school {
 }
 .ix-part-group ul { list-style: none; margin: 0; padding: 0; }
 article.page .ix-part-group li { font-size: 15.5px; line-height: 1.7; color: #2b2f38; margin: 0; }
+
+/* Participants page (The Witan Roll) */
+.ix-roll-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 4px solid var(--ix-yellow);
+  border-bottom: 1px solid var(--ix-line);
+  margin-bottom: 56px;
+}
+.ix-roll-stats > div { padding: 22px 20px 20px 0; display: flex; flex-direction: column; gap: 4px; }
+.ix-roll-stats > div + div { padding-left: 20px; border-left: 1px solid var(--ix-line); }
+.ix-roll-num { font-family: var(--ix-cond); font-size: 48px; font-weight: 500; line-height: 1; color: var(--ix-ink); }
+.ix-roll-stats span:not(.ix-roll-num) { font-size: 15px; color: var(--ix-muted); }
+.ix-roll-edition + .ix-roll-edition { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--ix-line); }
+article.page .ix-roll-note { color: var(--ix-muted); font-size: 16px; }
+.ix-participants-full { border: none; margin-top: 20px; }
+article.page .ix-part-count { font-family: var(--ix-cond); text-transform: uppercase; letter-spacing: 0.05em; font-size: 14px; color: var(--ix-muted); margin: 0 0 18px; }
+.ix-roll-link { font-family: var(--ix-cond); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 20px !important; }
+.ix-roll-link a { color: var(--ix-ink); text-decoration: none; border-bottom: 2px solid var(--ix-yellow); }
+.ix-roll-link a::after { content: " \2192"; }
+@media (max-width: 620px) { .ix-roll-stats { grid-template-columns: 1fr; } .ix-roll-stats > div + div { border-left: none; padding-left: 0; border-top: 1px solid var(--ix-line); } }

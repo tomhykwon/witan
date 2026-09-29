@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Participants · The Strategy Witan</title>
+<meta name="description" content="The Strategy Witan is an annual, invitation-only gathering of strategy scholars from across the UK. UCL School of Management hosts on 9 September 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="industry.css">
+</head>
+<body class="has-toc">
+
+<header class="site-header">
+  <div class="shell-wide header-inner">
+    <a class="ix-brand" href="index.html"><span>The Strategy</span><span>Witan</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programme.html">Programme</a>
+      <a href="participants.html" class="active">Participants</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="ix-pill" href="contact.html">Get in touch</a>
+  </div>
+</header>
+
+<main>
+<div class="page-header">
+  <div class="shell">
+    <p class="eyebrow">The Witan Roll</p>
+    <h1>Participants</h1>
+    <p class="lede">The Witan meets by invitation. These are the scholars who have taken part.</p>
+  </div>
+</div>
+
+<div class="shell page-body">
+  <aside class="toc">
+    <p class="toc-label">On this page</p>
+    <ul>
+      <li><a href="#2027-london">2027 &middot; London</a></li>
+      <li><a href="#2026-oxford">2026 &middot; Oxford</a></li>
+      <li><a href="#2019-london-50">2019 &middot; London 50</a></li>
+    </ul>
+  </aside>
+<article class="page">
+
+  <div class="ix-roll-stats">
+    <div><span class="ix-roll-num" data-roll-total>&mdash;</span><span>scholars on the roll</span></div>
+    <div><span class="ix-roll-num" data-roll-schools>&mdash;</span><span>business schools</span></div>
+    <div><span class="ix-roll-num">2026</span><span>first meeting as the Witan</span></div>
+  </div>
+
+  <section class="ix-roll-edition">
+    <h2 id="2027-london" data-toc="2027 &middot; London">2027 &middot; London</h2>
+    <p class="ix-roll-note">UCL School of Management, 9 September 2027. The roll for London will be added after the event.</p>
+  </section>
+
+  <section class="ix-roll-edition">
+    <h2 id="2026-oxford" data-toc="2026 &middot; Oxford">2026 &middot; Oxford</h2>
+    <p class="ix-roll-note">Sa&iuml;d Business School, 10 September 2026.</p>
+    <div class="ix-participants ix-participants-full" data-participants="_private/participants-2026.json" data-mode="full" data-edition="Oxford 2026"></div>
+  </section>
+
+  <section class="ix-roll-edition">
+    <h2 id="2019-london-50" data-toc="2019 &middot; London 50">2019 &middot; London 50</h2>
+    <p class="ix-roll-note">London Business School, 30 May 2019. The roll for the London 50 is being compiled.</p>
+  </section>
+
+</article>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <a class="ix-brand ix-brand-footer" href="index.html"><span>The Strategy</span><span>Witan</span></a>
+      <p>Hosted by UCL School of Management in 2027. Bayes Business School in 2028.</p>
+    </div>
+    <p><a href="contact.html">Contact</a> &nbsp;·&nbsp; <a href="about.html">About</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('active'); });
+        byId[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>
+<script>
+document.querySelectorAll('[data-participants]').forEach(function (box) {
+  fetch(box.dataset.participants).then(function (r) { return r.ok ? r.json() : null; }).then(function (groups) {
+    if (!groups) return;
+    var total = groups.reduce(function (n, g) { return n + g.people.length; }, 0);
+    var list = groups.map(function (g) {
+      return '<div class="ix-part-group"><p class="ix-part-school">' + g.school + '</p><ul>' +
+        g.people.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></div>';
+    }).join('');
+    if (box.dataset.mode === 'full') {
+      box.innerHTML = '<p class="ix-part-count">' + total + ' scholars &middot; ' + groups.length + ' schools</p>' +
+        '<div class="ix-part-body">' + list + '</div>';
+      document.querySelectorAll('[data-roll-total]').forEach(function (el) { el.textContent = total; });
+      document.querySelectorAll('[data-roll-schools]').forEach(function (el) { el.textContent = groups.length; });
+      return;
+    }
+    var html = '<div class="ix-part-head"><span class="ix-part-num">' + total + '</span>' +
+      '<span class="ix-part-lab">scholars from ' + groups.length + ' schools took part in ' + box.dataset.edition + '</span>' +
+      '<button type="button" class="ix-part-toggle" aria-expanded="false">See who took part</button></div>' +
+      '<div class="ix-part-body" hidden>' + groups.map(function (g) {
+        return '<div class="ix-part-group"><p class="ix-part-school">' + g.school + '</p><ul>' +
+          g.people.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div>';
+    box.innerHTML = html;
+    var btn = box.querySelector('.ix-part-toggle'), body = box.querySelector('.ix-part-body');
+    btn.addEventListener('click', function () {
+      var open = body.hidden; body.hidden = !open;
+      btn.setAttribute('aria-expanded', open); btn.textContent = open ? 'Hide list' : 'See who took part';
+    });
+  }).catch(function () {});
+});
+</script>
+</body>
+</html>
