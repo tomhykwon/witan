@@ -46,13 +46,14 @@ Same pattern as `tomkwon.com`:
 - UCL SoM floors at One Canada Square: Levels 38, 48, 49, 50 in use (48 newly opened); Levels 46 and 47 due to open.
 - Home page shows logos of **all** participating schools (from 2019/2026 attendee lists), **alphabetical**, greyscale (colour on hover), in `assets/logos/`. Tom chose logos over text (2026-09-29). Never drop a school or rank them.
 - Organisers (confirmed by Tom 2026-09-29): Oxford 2026 = Michelle Rogan, Richard Whittington, Eric Zhao. Bayes 2028 = Santi Furnari, Gianvito Lanzolla, Elena Novelli.
-- Past editions shows detailed programmes **without speaker names**. Full programme PDFs are gated by `PUBLISH_PROGRAMMES` in `build.py` (False until Anil & Tom agree); PDFs go in `assets/programmes/`. Attendee/invite lists are never published.
+- Programme page (`programme.html`, was "Past editions") lists 2027 as "to be announced", then past programmes **without speaker names**. Full programme PDFs are gated by `PUBLISH_PROGRAMMES` in `build.py` (False until Anil & Tom agree); PDFs go in `assets/programmes/`. Attendee/invite lists are never published.
 
 ## Pages
 
 - `index.html` — Home (dark editorial hero, what is a Witan, rotation)
 - `about.html` — extended history, etymology (with medieval witan-council image), format, the 2027 host (with UCL Portico image), rotation
-- `past.html` — Oxford 2026 (later: 2027 archived after the event, then 2028 etc.)
+- `programme.html` — 2027 (TBA), Oxford 2026, London 50 2019
+- `notes-<slug>.html` — blog posts, built from `_src/notes/<slug>.html` + the `POSTS` list in `build.py` (title, date, image, credit, summary, draft flag). Home carousel and blog grid are generated from `POSTS`. The four Oxford 2026 posts are **drafts** summarised from the session notes, without speaker names — check with speakers before removing the draft flag.
 - `blog.html` — "Notes from the Witan" — placeholder for now; first posts late 2026
 - `contact.html` — organisers, venue (with Canary Wharf image), attending, hosting-a-future-Witan
 

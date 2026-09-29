@@ -11,10 +11,112 @@ PAGES = [
     # file, nav label, <title>
     ("index.html", "Home", "The Strategy Witan · 2027"),
     ("about.html", "About", "About · The Strategy Witan"),
-    ("past.html", "Past editions", "Past editions · The Strategy Witan"),
+    ("programme.html", "Programme", "Programme · The Strategy Witan"),
     ("blog.html", "Blog", "Blog · The Strategy Witan"),
     ("contact.html", "Contact", "Contact · The Strategy Witan"),
 ]
+
+
+# Blog posts ("Notes from the Witan"). Body in _src/notes/<slug>.html,
+# written to notes-<slug>.html. Newest first. Drafts show a banner.
+POSTS = [
+    # slug, title, date, tag, image, image credit, summary, draft
+    ("strategy-should-no-longer-exist",
+     "The motion passed: should strategy exist as a field?",
+     "September 2026", "Oxford 2026 &middot; Debate",
+     "assets/notes/debate.jpg",
+     'Sa&iuml;d Business School, Oxford. Photo: pam fray, <a href="https://commons.wikimedia.org/wiki/File:The_Said_Business_School,_Oxford_-_geograph.org.uk_-_3939449.jpg">CC BY-SA 2.0</a>.',
+     "A room of strategy scholars voted on whether their own field should be abolished. Here is how the argument &mdash; and the vote &mdash; went.",
+     True),
+    ("calibration-and-augmentation",
+     "Very good at calibration, shy of augmentation",
+     "September 2026", "Oxford 2026 &middot; Opening panel",
+     "assets/notes/augmentation.jpg",
+     'Engine houses at Botallack, Cornwall. Photo: Nilfanion, <a href="https://commons.wikimedia.org/wiki/File:Botallack_Crowns_engine_houses.jpg">CC BY-SA 3.0</a>.',
+     "Are we perfecting a model of a world that has already moved on? A provocation from the opening panel.",
+     True),
+    ("slow-may-be-faster",
+     "Slow may be faster: judgment in the age of AI",
+     "September 2026", "Oxford 2026 &middot; Behavioural strategy",
+     "assets/notes/slow.jpg",
+     'Photo: Sebalston, <a href="https://commons.wikimedia.org/wiki/File:Pigeon_in_London.jpg">CC0</a>.',
+     "More tools do not make better strategy. Two levers from the Carnegie tradition for learning when AI makes everything look plausible.",
+     True),
+    ("deference-may-be-dead",
+     "Deference may be dead: strategy in institutional chaos",
+     "September 2026", "Oxford 2026 &middot; Institutional theory",
+     "assets/notes/chaos.jpg",
+     'Howrah Bridge, Kolkata. Photo: Dey.sandip, <a href="https://commons.wikimedia.org/wiki/File:Howrah_Bridge,_Foggy.jpg">CC BY-SA 3.0</a>.',
+     "When the yardsticks of legitimacy themselves are contested, what does strategy look like &mdash; and where are the openings?",
+     True),
+]
+
+
+def note_card(p):
+    slug, title, date, tag, img, _credit, summary, _draft = p
+    return (f'<a class="ix-note" href="notes-{slug}.html">'
+            f'<div class="ix-note-img"><img src="{img}" alt="" loading="lazy"></div>'
+            f'<div class="ix-note-body"><span class="ix-note-tag">{tag}</span>'
+            f'<h3>{title}</h3><p>{summary}</p>'
+            f'<span class="ix-note-more">Read</span></div></a>')
+
+
+def notes_carousel():
+    cards = "\n".join(f"      {note_card(p)}" for p in POSTS)
+    return f"""<div class="ix-carousel" data-carousel>
+    <div class="ix-carousel-track">
+{cards}
+    </div>
+    <div class="ix-carousel-nav">
+      <button type="button" data-dir="-1" aria-label="Previous">&larr;</button>
+      <button type="button" data-dir="1" aria-label="Next">&rarr;</button>
+    </div>
+  </div>"""
+
+
+def notes_grid():
+    return '<div class="ix-notes-grid">\n' + "\n".join(f"  {note_card(p)}" for p in POSTS) + "\n</div>"
+
+
+CAROUSEL_SCRIPT = """
+<script>
+document.querySelectorAll('[data-carousel]').forEach(function (c) {
+  var track = c.querySelector('.ix-carousel-track');
+  c.querySelectorAll('[data-dir]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var card = track.querySelector('.ix-note');
+      var step = card ? card.getBoundingClientRect().width + 24 : 320;
+      track.scrollBy({ left: step * Number(b.dataset.dir), behavior: 'smooth' });
+    });
+  });
+});
+</script>"""
+
+
+def post_page(p):
+    slug, title, date, tag, img, credit, summary, draft = p
+    body = (ROOT / "_src" / "notes" / f"{slug}.html").read_text().rstrip()
+    banner = ('<p class="ix-draft">Draft for review &mdash; summarised from session notes; '
+              'not yet checked with the speakers.</p>') if draft else ""
+    return f"""<div class="page-header ix-post-header">
+  <div class="shell">
+    <p class="eyebrow">{tag}</p>
+    <h1>{title}</h1>
+    <p class="lede">{date}</p>
+  </div>
+</div>
+
+<div class="shell page-body">
+<article class="page ix-post">
+  {banner}
+  <figure class="figure ix-post-figure">
+    <img src="{img}" alt="">
+    <figcaption>{credit}</figcaption>
+  </figure>
+{body}
+  <p class="ix-back"><a href="blog.html">&larr; All notes from the Witan</a></p>
+</article>
+</div>"""
 
 
 # Full programmes (PDF) on Past editions. Keep False until Anil and Tom agree to
@@ -102,7 +204,7 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="description" content="The Strategy Witan is an annual, invitation-only gathering of strategy scholars from across the UK. UCL School of Management hosts on 9 September 2027.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="industry.css">
 </head>
@@ -139,6 +241,7 @@ TEMPLATE = """<!DOCTYPE html>
 for fname, label, title in PAGES:
     body = (ROOT / "_src" / fname).read_text().rstrip()
     body = re.sub(r"\{\{download:(\d{4})\}\}", lambda m: download(m.group(1)), body)
+    body = body.replace("{{notes:carousel}}", notes_carousel()).replace("{{notes:grid}}", notes_grid())
     toc = ""
     if fname != "index.html":
         body, toc = add_toc(body)
@@ -146,6 +249,12 @@ for fname, label, title in PAGES:
         body = body.replace('<div class="shell page-body">\n', '<div class="shell page-body">\n  ' + toc, 1)
     html = TEMPLATE.format(title=title, nav=nav(label), body=body,
                            body_class=' class="has-toc"' if toc else "",
-                           script=TOC_SCRIPT if toc else "")
+                           script=(TOC_SCRIPT if toc else "") + (CAROUSEL_SCRIPT if "data-carousel" in body else ""))
     (ROOT / fname).write_text(html)
     print("built", fname)
+
+for p in POSTS:
+    html = TEMPLATE.format(title=f"{p[1]} · The Strategy Witan", nav=nav("Blog"),
+                           body=post_page(p), body_class="", script="")
+    (ROOT / f"notes-{p[0]}.html").write_text(html)
+    print("built", f"notes-{p[0]}.html")

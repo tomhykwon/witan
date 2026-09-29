@@ -16,7 +16,8 @@
   --ix-grey: #f3f2ee;
   --ix-line: #dddcd6;
   --ix-muted: #5c6370;
-  --ix-sans: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --ix-sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --ix-cond: "Oswald", "Arial Narrow", sans-serif;   /* condensed display, as on the CCC/HBS page */
 
   --bg: #ffffff;
   --ink: var(--ix-ink);
@@ -425,3 +426,142 @@ ul.rotation .host, ol.programme strong { font-family: var(--ix-sans); }
 }
 .ix-head-row .ix-h2::after { display: none; }
 .ix-stat-label { max-width: 240px; line-height: 1.4; }
+
+
+/* ============================================================
+   Condensed display type (Oswald) for headings, nav, labels
+   ============================================================ */
+
+.ix-brand, .ix-pill, .ix-btn, .ix-link, .site-header nav,
+.ix-kicker, .ix-when, .ix-hero h1, .ix-statement, .ix-stat-num, .ix-stat-label,
+.ix-h2, .ix-card h3, .ix-card-num, .ix-timeline span, .ix-timeline strong,
+.ix-year, .ix-rotation strong, .ix-cta h2, .ix-hosts span,
+.page-header h1, .page-header .eyebrow, article.page h2, .edition-title,
+.ix-note-tag, .ix-note h3, .ix-note-more, .ix-carousel-nav button, .toc a, .toc-label {
+  font-family: var(--ix-cond);
+}
+
+.ix-hero h1 { font-weight: 500; letter-spacing: -0.005em; font-size: clamp(52px, 6.6vw, 96px); line-height: 0.98; text-transform: none; }
+.ix-statement { font-weight: 400; letter-spacing: 0; font-size: clamp(30px, 3.2vw, 46px); line-height: 1.12; }
+.ix-when { font-weight: 400; font-size: 20px; letter-spacing: 0.01em; }
+.ix-kicker { font-weight: 500; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; }
+.ix-h2 { font-weight: 500; letter-spacing: 0; font-size: clamp(38px, 4.2vw, 58px); line-height: 1.02; }
+.ix-stat-num { font-weight: 500; letter-spacing: 0; font-size: 64px; }
+.ix-stat-label { font-weight: 400; font-size: 16px; letter-spacing: 0.01em; }
+.ix-card h3 { font-weight: 500; font-size: 25px; line-height: 1.15; letter-spacing: 0; }
+.ix-card-num { font-weight: 500; font-size: 16px; }
+.ix-timeline strong { font-weight: 500; font-size: 22px; line-height: 1.15; }
+.ix-timeline span { font-weight: 400; font-size: 14px; letter-spacing: 0.06em; }
+.ix-year { font-weight: 500; letter-spacing: 0; font-size: 52px; }
+.ix-rotation strong { font-weight: 500; font-size: 19px; line-height: 1.2; }
+.ix-cta h2 { font-weight: 500; letter-spacing: 0; font-size: clamp(34px, 3.6vw, 50px); }
+.ix-brand { font-weight: 500; letter-spacing: 0.06em; font-size: 12px; }
+.ix-brand span + span { font-size: 20px; font-weight: 600; letter-spacing: 0.08em; }
+.site-header nav { font-weight: 400; font-size: 16px; letter-spacing: 0.02em; text-transform: uppercase; }
+.ix-pill, .ix-btn { font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 14.5px; }
+.ix-link { font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 15px; }
+.page-header h1 { font-weight: 500; letter-spacing: 0; font-size: clamp(46px, 5.4vw, 76px); line-height: 1.0; }
+.page-header .eyebrow { font-weight: 400; font-size: 15px; letter-spacing: 0.08em; }
+.page-header .lede { font-size: 20px; }
+article.page h2 { font-weight: 500; letter-spacing: 0; font-size: 32px; }
+.edition-title { font-weight: 500 !important; letter-spacing: 0 !important; font-size: 34px !important; }
+.toc a { font-size: 15px; letter-spacing: 0.02em; }
+
+/* ============================================================
+   Notes carousel (home) and grid (blog)
+   ============================================================ */
+
+.ix-notes-section { overflow: hidden; }
+.ix-carousel-wrap { position: relative; }
+
+.ix-carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(300px, 380px);
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  padding: 8px 0 28px;
+  scrollbar-width: none;
+}
+.ix-carousel-track::-webkit-scrollbar { display: none; }
+.ix-carousel-track > * { scroll-snap-align: start; }
+
+.ix-note {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--ix-ink);
+  text-decoration: none;
+  border: 1px solid var(--ix-line);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.ix-note:hover { transform: translateY(-6px); box-shadow: 0 18px 36px -18px rgba(20,28,40,.35); }
+
+.ix-note-img { overflow: hidden; aspect-ratio: 4 / 3; background: var(--ix-grey); }
+.ix-note-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.ix-note:hover .ix-note-img img { transform: scale(1.06); }
+
+.ix-note-body { padding: 22px 24px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; border-top: 4px solid var(--ix-yellow); }
+.ix-note-tag { font-size: 13.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ix-muted); }
+.ix-note h3 { font-size: 25px; font-weight: 500; line-height: 1.15; margin: 0; letter-spacing: 0; text-transform: none; color: var(--ix-ink); }
+.ix-note p { font-size: 15.5px; line-height: 1.5; color: #3e4552; margin: 0; }
+.ix-note-more { margin-top: auto; padding-top: 6px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ix-ink); }
+.ix-note-more::after { content: " \2192"; transition: margin .3s; }
+.ix-note:hover .ix-note-more::after { margin-left: 6px; }
+
+.ix-carousel-nav { display: flex; gap: 10px; justify-content: flex-end; }
+.ix-carousel-nav button {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--ix-ink);
+  background: #fff;
+  color: var(--ix-ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.ix-carousel-nav button:hover { background: var(--ix-yellow); border-color: var(--ix-yellow); }
+
+.ix-aside a { color: var(--ix-ink); }
+
+.ix-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+/* ============================================================
+   Post page
+   ============================================================ */
+
+.ix-post .note-lede { font-size: 21px; line-height: 1.5; color: var(--ix-ink); }
+.ix-post h2 { margin-top: 44px !important; }
+.ix-post-figure { margin-top: 0; }
+.ix-draft {
+  background: var(--ix-yellow-soft);
+  border-left: 4px solid var(--ix-yellow);
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--ix-ink);
+}
+.ix-back { margin-top: 48px !important; font-family: var(--ix-cond); text-transform: uppercase; letter-spacing: 0.04em; }
+.ix-back a { color: var(--ix-ink); }
+
+/* Programme page: upcoming edition */
+.ix-tba {
+  margin-top: 24px;
+  border: 2px dashed var(--ix-line);
+  padding: 28px 28px 26px;
+  background: var(--ix-grey);
+}
+.ix-tba strong { font-family: var(--ix-cond); font-weight: 500; font-size: 24px; display: block; margin-bottom: 6px; }
+.ix-tba p { margin: 0; color: var(--ix-muted); }
+
+@media (max-width: 620px) {
+  .ix-carousel-track { grid-auto-columns: 82%; }
+}
+
+/* Let the carousel run off the right edge of the viewport, like the reference */
+.ix-carousel-track { margin-right: calc(50% - 50vw); padding-right: 40px; }
