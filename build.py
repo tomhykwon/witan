@@ -35,6 +35,56 @@ def download(year):
             '&mdash; PDF to be posted</p>')
 
 
+def slug(text):
+    text = re.sub(r"&[a-z]+;", "", text)
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def add_toc(body):
+    """Give each <h2> an id and return (body, toc_html). Pages with fewer than
+    two headings get no table of contents. An h2 can set data-toc="..." to use
+    a shorter label in the sidebar."""
+    entries = []
+
+    def tag(m):
+        attrs, label = m.group(1), m.group(2)
+        short = re.search(r'data-toc="([^"]*)"', attrs)
+        text = short.group(1) if short else label
+        anchor = slug(text)
+        entries.append((anchor, text))
+        return f'<h2 id="{anchor}"{attrs}>{label}</h2>'
+
+    body = re.sub(r"<h2([^>]*)>(.*?)</h2>", tag, body)
+    if len(entries) < 2:
+        return body, ""
+    links = "\n".join(f'      <li><a href="#{a}">{t}</a></li>' for a, t in entries)
+    toc = f'<aside class="toc">\n    <p class="toc-label">On this page</p>\n    <ul>\n{links}\n    </ul>\n  </aside>\n'
+    return body, toc
+
+
+TOC_SCRIPT = """
+<script>
+(function () {
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('active'); });
+        byId[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>"""
+
+
 def nav(active):
     lines = []
     for href, label, _ in PAGES:
@@ -55,7 +105,7 @@ TEMPLATE = """<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body{body_class}>
 
 <header class="site-header">
   <div class="shell-wide header-inner">
@@ -79,7 +129,7 @@ TEMPLATE = """<!DOCTYPE html>
     <p><a href="contact.html">Contact</a> &nbsp;·&nbsp; <a href="about.html">About</a></p>
   </div>
 </footer>
-
+{script}
 </body>
 </html>
 """
@@ -87,6 +137,13 @@ TEMPLATE = """<!DOCTYPE html>
 for fname, label, title in PAGES:
     body = (ROOT / "_src" / fname).read_text().rstrip()
     body = re.sub(r"\{\{download:(\d{4})\}\}", lambda m: download(m.group(1)), body)
-    html = TEMPLATE.format(title=title, nav=nav(label), body=body)
+    toc = ""
+    if fname != "index.html":
+        body, toc = add_toc(body)
+    if toc:
+        body = body.replace('<div class="shell page-body">\n', '<div class="shell page-body">\n  ' + toc, 1)
+    html = TEMPLATE.format(title=title, nav=nav(label), body=body,
+                           body_class=' class="has-toc"' if toc else "",
+                           script=TOC_SCRIPT if toc else "")
     (ROOT / fname).write_text(html)
     print("built", fname)

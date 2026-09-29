@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-toc">
 
 <header class="site-header">
   <div class="shell-wide header-inner">
@@ -35,11 +35,18 @@
 </div>
 
 <div class="shell page-body">
+  <aside class="toc">
+    <p class="toc-label">On this page</p>
+    <ul>
+      <li><a href="#2026-oxford">2026 &middot; Oxford</a></li>
+      <li><a href="#2019-london-50">2019 &middot; London 50</a></li>
+    </ul>
+  </aside>
 <article class="page">
 
   <div class="edition">
     <p class="eyebrow">2026 &middot; Oxford</p>
-    <h2 class="edition-title">Strategy Witan at Sa&iuml;d Business School</h2>
+    <h2 id="2026-oxford" class="edition-title" data-toc="2026 &middot; Oxford">Strategy Witan at Sa&iuml;d Business School</h2>
     <p class="edition-meta">Thursday 10 September 2026 &middot; Sa&iuml;d Business School, Oxford</p>
     <p class="edition-organisers">Organised by Michelle Rogan, Richard Whittington and Eric Zhao</p>
 
@@ -63,7 +70,7 @@
 
   <div class="edition muted">
     <p class="eyebrow">2019 &middot; London</p>
-    <h2 class="edition-title">The London 50</h2>
+    <h2 id="2019-london-50" class="edition-title" data-toc="2019 &middot; London 50">The London 50</h2>
     <p class="edition-meta">Thursday 30 May 2019 &middot; London Business School</p>
     <p class="edition-organisers">Organised by Freek Vermeulen</p>
     <p>The predecessor conference from which the Witan tradition emerged. Unlike the Witan, the London 50 was built around research presentations: scholars from London&rsquo;s business schools, with colleagues from Cambridge, Oxford and Warwick, shared current work across three themed sessions and a rapid round.</p>
@@ -94,5 +101,25 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('active'); });
+        byId[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>
 </body>
 </html>

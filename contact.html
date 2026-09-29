@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-toc">
 
 <header class="site-header">
   <div class="shell-wide header-inner">
@@ -35,10 +35,19 @@
 </div>
 
 <div class="shell page-body">
+  <aside class="toc">
+    <p class="toc-label">On this page</p>
+    <ul>
+      <li><a href="#2027-organisers">2027 organisers</a></li>
+      <li><a href="#venue">Venue</a></li>
+      <li><a href="#attending">Attending</a></li>
+      <li><a href="#hosting-a-future-witan">Hosting a future Witan</a></li>
+    </ul>
+  </aside>
 <article class="page">
 
   <section>
-    <h2>2027 organisers</h2>
+    <h2 id="2027-organisers">2027 organisers</h2>
     <div class="contact-block">
       <p>
         <span class="name">Anil Doshi</span>
@@ -54,7 +63,7 @@
   </section>
 
   <section>
-    <h2>Venue</h2>
+    <h2 id="venue">Venue</h2>
     <p>UCL School of Management &middot; One Canada Square, Canary Wharf, London E14 5AB.</p>
 
     <figure class="figure">
@@ -64,12 +73,12 @@
   </section>
 
   <section>
-    <h2>Attending</h2>
+    <h2 id="attending">Attending</h2>
     <p>The Witan is invitation-only. Invitations for the 2027 edition are expected to go out in January 2027.</p>
   </section>
 
   <section>
-    <h2>Hosting a future Witan</h2>
+    <h2 id="hosting-a-future-witan">Hosting a future Witan</h2>
     <p>The Witan rotates annually across UK institutions. Bayes Business School hosts in 2028. Colleagues interested in hosting a future edition are welcome to write to the current organisers.</p>
   </section>
 
@@ -87,5 +96,25 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('active'); });
+        byId[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>
 </body>
 </html>

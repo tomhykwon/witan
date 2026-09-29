@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,25..100;1,9..144,300..700,25..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-toc">
 
 <header class="site-header">
   <div class="shell-wide header-inner">
@@ -35,10 +35,20 @@
 </div>
 
 <div class="shell page-body">
+  <aside class="toc">
+    <p class="toc-label">On this page</p>
+    <ul>
+      <li><a href="#the-name">The name</a></li>
+      <li><a href="#origins">Origins</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#the-2027-host">The 2027 host</a></li>
+      <li><a href="#hosting-rotation">Hosting rotation</a></li>
+    </ul>
+  </aside>
 <article class="page">
 
   <section>
-    <h2>The name</h2>
+    <h2 id="the-name">The name</h2>
     <p><em>Witan</em> is a word from Old English meaning &ldquo;the wise.&rdquo; The witan was a council convened to advise the king (or queen) on matters of consequence in Anglo-Saxon England between the seventh and eleventh centuries. It served as the king&rsquo;s council in the governance of the realm and carried the prominent task of electing the king from the candidates presented to it.</p>
 
     <figure class="figure">
@@ -50,18 +60,18 @@
   </section>
 
   <section>
-    <h2>Origins</h2>
+    <h2 id="origins">Origins</h2>
     <p>The Strategy Witan continues a tradition established at London Business School in 2019 with the &ldquo;London 50&rdquo; conference, organised by Freek Vermeulen. Covid interrupted the series. In 2026, Oxford&rsquo;s Sa&iuml;d Business School revived it under the Witan name. The intention from the outset was for the conference to rotate hosts across the UK strategy community.</p>
   </section>
 
   <section>
-    <h2>Format</h2>
+    <h2 id="format">Format</h2>
     <p>The Witan is deliberately unlike a normal academic conference. It is not a venue for presenting one&rsquo;s latest paper. It is a discussion forum with an emphasis on the questions the field ought to be taking seriously &mdash; and on what, if anything, our scholarship can do about them.</p>
     <p>The invitation-only format is a function of space, not exclusion for its own sake. The <a href="blog.html">blog</a> exists so that the substantive output of each Witan is available to the wider community.</p>
   </section>
 
   <section>
-    <h2>The 2027 host</h2>
+    <h2 id="the-2027-host">The 2027 host</h2>
     <p>The 2027 edition is hosted by the UCL School of Management, part of University College London &mdash; founded in 1826 as a secular alternative to Oxford and Cambridge, and marking its bicentenary in 2026. The School of Management occupies Levels 38 and 48&ndash;50 of One Canada Square in Canary Wharf, London, with Levels 46 and 47 due to open.</p>
 
     <figure class="figure">
@@ -71,7 +81,7 @@
   </section>
 
   <section>
-    <h2>Hosting rotation</h2>
+    <h2 id="hosting-rotation">Hosting rotation</h2>
     <ul class="rotation">
       <li><span class="year">2019</span><span class="host">London Business School</span><span class="who">Freek Vermeulen</span></li>
       <li><span class="year">2026</span><span class="host">Sa&iuml;d Business School, Oxford</span><span class="who">Michelle Rogan, Richard Whittington &amp; Eric Zhao</span></li>
@@ -95,5 +105,25 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var links = document.querySelectorAll('.toc a');
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var byId = {};
+  links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('active'); });
+        byId[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(byId).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>
 </body>
 </html>

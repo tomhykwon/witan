@@ -30,7 +30,7 @@ Same pattern as `tomkwon.com`:
 - Clean, professional, academic. Nothing that "튀어" or looks AI-generated: no cards, no gradients, no big stat blocks, no loud badges.
 - Emphasis is subtle: small uppercase purple labels for section headings, thin hairline rules, single-column ≤ 720px.
 - Serif body (Source Serif 4), sans for nav and small labels (Source Sans 3).
-- Borrows the philosophy of `tomkwon.com` but is intentionally not identical — the Witan is not Tom's personal site. No left sidebar; centred single column.
+- Borrows the philosophy of `tomkwon.com` but is intentionally not identical — the Witan is not Tom's personal site. No site-wide sidebar nav. Subpages with 2+ `<h2>` sections get an auto-generated sticky "On this page" list on the left (built by `build.py` from the h2s; `data-toc="..."` sets a shorter label; hidden under 1040px). Home and Blog have none.
 
 ## Content rules
 
