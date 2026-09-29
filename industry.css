@@ -573,7 +573,7 @@ article.page h2 { font-weight: 500; letter-spacing: 0; font-size: 32px; }
 
 .ix-people {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 230px));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 170px));
   gap: 32px;
   margin-top: 8px;
 }
@@ -591,6 +591,6 @@ article.page h2 { font-weight: 500; letter-spacing: 0; font-size: 32px; }
 .ix-person:hover .ix-person-photo img { transform: scale(1.04); }
 
 article.page .ix-person p { margin: 0; }
-article.page .ix-person-name { font-family: var(--ix-cond); font-size: 22px; font-weight: 500; margin-top: 14px !important; color: var(--ix-ink); }
-.ix-person-role { font-size: 14.5px; line-height: 1.45; color: var(--ix-muted); margin-top: 4px !important; }
+article.page .ix-person-name { font-family: var(--ix-cond); font-size: 20px; font-weight: 500; margin-top: 14px !important; color: var(--ix-ink); }
+.ix-person-role { font-size: 13.5px; line-height: 1.45; color: var(--ix-muted); margin-top: 4px !important; }
 .ix-person-email { display: inline-block; margin-top: 8px; font-size: 14.5px; color: var(--ix-red); }
