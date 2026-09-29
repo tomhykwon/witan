@@ -36,12 +36,17 @@ Same pattern as `tomkwon.com`:
 
 - **Don't invent facts.** Source from the planning doc (`/Users/tom/Library/CloudStorage/OneDrive-UniversityCollegeLondon/# Conferences/2027 WITAN/`) or ask Tom.
 - Currently uncertain — do not commit these as fact on the site until confirmed:
-  - Exact 2027 conference date (planning says "early September")
+  - ~~Exact date~~ — confirmed by Tom 2026-09-29: Thursday 9 September 2027.
   - RSVP link (invitations expected ~January 2027)
   - Programme structure
   - UCL colleague names as session leads (Rohan / Jen / Chris / Sukanya — sound-out only, not yet confirmed)
-  - Anil Doshi's UCL email — not on the site until Tom confirms exact address
-- 2019 London 50 organiser: Freek Vermeulen (confirmed from Oxford 2026 welcome doc).
+- 2019 London 50 organiser: Freek Vermeulen (confirmed from Oxford 2026 welcome doc). Held Thursday 30 May 2019 (2019 agenda docx).
+- Oxford 2026 was Thursday 10 September 2026 (Day Programme docx).
+- Hosts: always list **Anil Doshi first** (senior), then Tom Kwon. Anil's email: anil.doshi@ucl.ac.uk (confirmed 2026-09-29).
+- UCL SoM floors at One Canada Square: Levels 38, 48, 49, 50 in use (48 newly opened); Levels 46 and 47 due to open.
+- Home page shows logos of **all** participating schools (from 2019/2026 attendee lists), **alphabetical**, greyscale (colour on hover), in `assets/logos/`. Tom chose logos over text (2026-09-29). Never drop a school or rank them.
+- Organisers (confirmed by Tom 2026-09-29): Oxford 2026 = Michelle Rogan, Richard Whittington, Eric Zhao. Bayes 2028 = Santi Furnari, Gianvito Lanzolla, Elena Novelli.
+- Past editions shows detailed programmes **without speaker names**. Full programme PDFs are gated by `PUBLISH_PROGRAMMES` in `build.py` (False until Anil & Tom agree); PDFs go in `assets/programmes/`. Attendee/invite lists are never published.
 
 ## Pages
 

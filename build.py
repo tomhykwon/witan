@@ -2,6 +2,7 @@
 
 Edit content in _src/*.html, then run:  python3 build.py
 """
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -14,6 +15,24 @@ PAGES = [
     ("blog.html", "Blog", "Blog · The Strategy Witan"),
     ("contact.html", "Contact", "Contact · The Strategy Witan"),
 ]
+
+
+# Full programmes (PDF) on Past editions. Keep False until Anil and Tom agree to
+# publish them; then put the PDFs in assets/programmes/ and flip this to True.
+PUBLISH_PROGRAMMES = False
+
+PROGRAMME_FILES = {
+    "2026": "assets/programmes/witan-2026-oxford-programme.pdf",
+    "2019": "assets/programmes/london50-2019-programme.pdf",
+}
+
+
+def download(year):
+    if PUBLISH_PROGRAMMES:
+        return (f'<p class="download"><a href="{PROGRAMME_FILES[year]}" download>'
+                f'Download the full programme (PDF)</a></p>')
+    return ('<p class="download pending">Full programme with speakers and papers '
+            '&mdash; PDF to be posted</p>')
 
 
 def nav(active):
@@ -67,6 +86,7 @@ TEMPLATE = """<!DOCTYPE html>
 
 for fname, label, title in PAGES:
     body = (ROOT / "_src" / fname).read_text().rstrip()
+    body = re.sub(r"\{\{download:(\d{4})\}\}", lambda m: download(m.group(1)), body)
     html = TEMPLATE.format(title=title, nav=nav(label), body=body)
     (ROOT / fname).write_text(html)
     print("built", fname)
