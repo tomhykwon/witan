@@ -25,35 +25,35 @@ POSTS = [
      "The motion passed: should strategy exist as a field?",
      "September 2026", "Oxford 2026 &middot; Debate",
      "assets/notes/debate.jpg",
-     'Sa&iuml;d Business School, Oxford. Photo: pam fray, <a href="https://commons.wikimedia.org/wiki/File:The_Said_Business_School,_Oxford_-_geograph.org.uk_-_3939449.jpg">CC BY-SA 2.0</a>.',
+     'The House of Commons chamber. Photo: UK Parliament, <a href="https://commons.wikimedia.org/wiki/File:House_of_Commons_Chamber_1.png">CC BY 3.0</a>.',
      "A room of strategy scholars voted on whether their own field should be abolished. Here is how the argument &mdash; and the vote &mdash; went.",
      True),
-    ("when-ai-meets-the-physical-world",
-     "When AI meets the physical world",
-     "September 2026", "Oxford 2026 &middot; Tech &amp; AI &middot; Tom Kwon",
+    ("will-ai-restructure-competition",
+     "Will AI restructure competition?",
+     "September 2026", "Oxford 2026 &middot; Tech &amp; AI",
      "assets/notes/physical-ai.jpg",
      'A self-driving car with roof-mounted LiDAR and cameras, San Francisco. Photo: Dllu, <a href="https://commons.wikimedia.org/wiki/File:Waymo_Jaguar_I-Pace_in_San_Francisco_2023_dllu.jpg">CC BY 4.0</a>.',
-     "Robots, autonomous vehicles and drones make AI visible &mdash; and make one firm&rsquo;s mistakes everyone&rsquo;s strategy problem.",
+     "Super firms, physical AI and digital twins: three provocations on whether AI changes the rules of competition, not just its speed.",
      True),
     ("calibration-and-augmentation",
      "Very good at calibration, shy of augmentation",
      "September 2026", "Oxford 2026 &middot; Opening panel",
-     "assets/notes/augmentation.jpg",
-     'Engine houses at Botallack, Cornwall. Photo: Nilfanion, <a href="https://commons.wikimedia.org/wiki/File:Botallack_Crowns_engine_houses.jpg">CC BY-SA 3.0</a>.',
+     "assets/notes/telescope.jpg",
+     'The Lovell Telescope, Jodrell Bank. Photo: Mike Peel, <a href="https://commons.wikimedia.org/wiki/File:Lovell_Telescope1.jpg">CC BY-SA 4.0</a>.',
      "Are we perfecting a model of a world that has already moved on? A provocation from the opening panel.",
      True),
     ("slow-may-be-faster",
      "Slow may be faster: judgment in the age of AI",
      "September 2026", "Oxford 2026 &middot; Behavioural strategy",
-     "assets/notes/slow.jpg",
-     'Photo: Sebalston, <a href="https://commons.wikimedia.org/wiki/File:Pigeon_in_London.jpg">CC0</a>.',
+     "assets/notes/chess-clock.jpg",
+     'An antique chess clock. Photo: Mussklprozz, <a href="https://commons.wikimedia.org/wiki/File:SchachuhrLudwigsburg.jpg">CC BY-SA 4.0</a>.',
      "More tools do not make better strategy. Two levers from the Carnegie tradition for learning when AI makes everything look plausible.",
      True),
     ("deference-may-be-dead",
      "Deference may be dead: strategy in institutional chaos",
      "September 2026", "Oxford 2026 &middot; Institutional theory",
-     "assets/notes/chaos.jpg",
-     'Howrah Bridge, Kolkata. Photo: Dey.sandip, <a href="https://commons.wikimedia.org/wiki/File:Howrah_Bridge,_Foggy.jpg">CC BY-SA 3.0</a>.',
+     "assets/notes/tug-of-war.jpg",
+     'Photo: Samson Ssemakadde, <a href="https://commons.wikimedia.org/wiki/File:Men_pulling_a_rope_during_a_tug_of_war_game.jpg">CC0</a>.',
      "When the yardsticks of legitimacy themselves are contested, what does strategy look like &mdash; and where are the openings?",
      True),
 ]
@@ -96,6 +96,33 @@ document.querySelectorAll('[data-carousel]').forEach(function (c) {
       track.scrollBy({ left: step * Number(b.dataset.dir), behavior: 'smooth' });
     });
   });
+});
+</script>"""
+
+
+# Participant lists are personal data, so they are NOT committed: the page only
+# carries an empty placeholder, and this script fills it from _private/*.json
+# (git-ignored) when that file is present -- i.e. in local preview only.
+PARTICIPANTS_SCRIPT = """
+<script>
+document.querySelectorAll('[data-participants]').forEach(function (box) {
+  fetch(box.dataset.participants).then(function (r) { return r.ok ? r.json() : null; }).then(function (groups) {
+    if (!groups) return;
+    var total = groups.reduce(function (n, g) { return n + g.people.length; }, 0);
+    var html = '<div class="ix-part-head"><span class="ix-part-num">' + total + '</span>' +
+      '<span class="ix-part-lab">scholars from ' + groups.length + ' schools took part in ' + box.dataset.edition + '</span>' +
+      '<button type="button" class="ix-part-toggle" aria-expanded="false">See who took part</button></div>' +
+      '<div class="ix-part-body" hidden>' + groups.map(function (g) {
+        return '<div class="ix-part-group"><p class="ix-part-school">' + g.school + '</p><ul>' +
+          g.people.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div>';
+    box.innerHTML = html;
+    var btn = box.querySelector('.ix-part-toggle'), body = box.querySelector('.ix-part-body');
+    btn.addEventListener('click', function () {
+      var open = body.hidden; body.hidden = !open;
+      btn.setAttribute('aria-expanded', open); btn.textContent = open ? 'Hide list' : 'See who took part';
+    });
+  }).catch(function () {});
 });
 </script>"""
 
@@ -256,7 +283,8 @@ for fname, label, title in PAGES:
         body = body.replace('<div class="shell page-body">\n', '<div class="shell page-body">\n  ' + toc, 1)
     html = TEMPLATE.format(title=title, nav=nav(label), body=body,
                            body_class=' class="has-toc"' if toc else "",
-                           script=(TOC_SCRIPT if toc else "") + (CAROUSEL_SCRIPT if "data-carousel" in body else ""))
+                           script=(TOC_SCRIPT if toc else "") + (CAROUSEL_SCRIPT if "data-carousel" in body else "")
+                                  + (PARTICIPANTS_SCRIPT if "data-participants" in body else ""))
     (ROOT / fname).write_text(html)
     print("built", fname)
 

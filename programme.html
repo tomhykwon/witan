@@ -67,6 +67,8 @@
 
     <p>The first meeting under the Witan name, hosted by Oxford&rsquo;s Sa&iuml;d Business School. The day opened with a panel on the future of strategy scholarship, ran parallel sessions on theoretical and topical agendas for the field, and closed with a debate on whether the field of strategy should exist at all, followed by dinner at Trinity College.</p>
 
+    <div class="ix-participants" data-participants="_private/participants-2026.json" data-edition="Oxford 2026"></div>
+
     <h3>Programme</h3>
     <ol class="programme">
       <li><span class="time">09.15</span><div><strong>Welcome</strong></div></li>
@@ -135,6 +137,27 @@
     if (el) obs.observe(el);
   });
 })();
+</script>
+<script>
+document.querySelectorAll('[data-participants]').forEach(function (box) {
+  fetch(box.dataset.participants).then(function (r) { return r.ok ? r.json() : null; }).then(function (groups) {
+    if (!groups) return;
+    var total = groups.reduce(function (n, g) { return n + g.people.length; }, 0);
+    var html = '<div class="ix-part-head"><span class="ix-part-num">' + total + '</span>' +
+      '<span class="ix-part-lab">scholars from ' + groups.length + ' schools took part in ' + box.dataset.edition + '</span>' +
+      '<button type="button" class="ix-part-toggle" aria-expanded="false">See who took part</button></div>' +
+      '<div class="ix-part-body" hidden>' + groups.map(function (g) {
+        return '<div class="ix-part-group"><p class="ix-part-school">' + g.school + '</p><ul>' +
+          g.people.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div>';
+    box.innerHTML = html;
+    var btn = box.querySelector('.ix-part-toggle'), body = box.querySelector('.ix-part-body');
+    btn.addEventListener('click', function () {
+      var open = body.hidden; body.hidden = !open;
+      btn.setAttribute('aria-expanded', open); btn.textContent = open ? 'Hide list' : 'See who took part';
+    });
+  }).catch(function () {});
+});
 </script>
 </body>
 </html>

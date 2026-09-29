@@ -594,3 +594,46 @@ article.page .ix-person p { margin: 0; }
 article.page .ix-person-name { font-family: var(--ix-cond); font-size: 20px; font-weight: 500; margin-top: 14px !important; color: var(--ix-ink); }
 .ix-person-role { font-size: 13.5px; line-height: 1.45; color: var(--ix-muted); margin-top: 4px !important; }
 .ix-person-email { display: inline-block; margin-top: 8px; font-size: 14.5px; color: var(--ix-red); }
+
+/* ============================================================
+   Participants (per edition, Programme page)
+   ============================================================ */
+
+.ix-participants:empty { display: none; }
+.ix-participants { margin: 28px 0 8px; border-top: 1px solid var(--ix-line); border-bottom: 1px solid var(--ix-line); }
+.ix-part-head { display: flex; align-items: center; gap: 18px; padding: 20px 0; flex-wrap: wrap; }
+.ix-part-num { font-family: var(--ix-cond); font-size: 52px; font-weight: 500; line-height: 1; color: var(--ix-ink); }
+.ix-part-lab { font-size: 16px; color: var(--ix-muted); max-width: 260px; line-height: 1.35; }
+.ix-part-toggle {
+  margin-left: auto;
+  font-family: var(--ix-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 14px;
+  background: none;
+  border: 1px solid var(--ix-ink);
+  border-radius: 999px;
+  padding: 9px 18px;
+  cursor: pointer;
+  color: var(--ix-ink);
+}
+.ix-part-toggle:hover { background: var(--ix-yellow); border-color: var(--ix-yellow); }
+.ix-part-body {
+  columns: 3 220px;
+  column-gap: 36px;
+  padding: 8px 0 28px;
+}
+.ix-part-group { break-inside: avoid; margin-bottom: 22px; }
+article.page .ix-part-school {
+  font-family: var(--ix-cond);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ix-ink);
+  border-bottom: 3px solid var(--ix-yellow);
+  display: inline-block;
+  padding-bottom: 3px;
+  margin: 0 0 10px;
+}
+.ix-part-group ul { list-style: none; margin: 0; padding: 0; }
+article.page .ix-part-group li { font-size: 15.5px; line-height: 1.7; color: #2b2f38; margin: 0; }
