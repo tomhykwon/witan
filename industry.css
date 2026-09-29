@@ -565,3 +565,32 @@ article.page h2 { font-weight: 500; letter-spacing: 0; font-size: 32px; }
 
 /* Let the carousel run off the right edge of the viewport, like the reference */
 .ix-carousel-track { margin-right: calc(50% - 50vw); padding-right: 40px; }
+
+/* ============================================================
+   Organiser portraits — cut-out headshots on a pale sky tile,
+   after the Economist Enterprise speakers page
+   ============================================================ */
+
+.ix-people {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 230px));
+  gap: 32px;
+  margin-top: 8px;
+}
+
+.ix-person-photo {
+  aspect-ratio: 1 / 1.08;
+  background: linear-gradient(180deg, #e9f1f8 0%, #dce8f3 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 4px solid var(--ix-yellow);
+}
+.ix-person-photo img { width: 100%; height: auto; display: block; transition: transform .5s ease; transform-origin: bottom center; }
+.ix-person:hover .ix-person-photo img { transform: scale(1.04); }
+
+article.page .ix-person p { margin: 0; }
+article.page .ix-person-name { font-family: var(--ix-cond); font-size: 22px; font-weight: 500; margin-top: 14px !important; color: var(--ix-ink); }
+.ix-person-role { font-size: 14.5px; line-height: 1.45; color: var(--ix-muted); margin-top: 4px !important; }
+.ix-person-email { display: inline-block; margin-top: 8px; font-size: 14.5px; color: var(--ix-red); }
