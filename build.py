@@ -9,7 +9,7 @@ ROOT = Path(__file__).parent
 
 PAGES = [
     # file, nav label, <title>
-    ("index.html", "Home", "The Strategy Witan · 2027"),
+    ("index.html", "Home", "The Strategy Witan"),
     ("about.html", "About", "About · The Strategy Witan"),
     ("programme.html", "Programme", "Programme · The Strategy Witan"),
     ("participants.html", "Participants", "Participants · The Strategy Witan"),
